@@ -1,4 +1,5 @@
-package br.fazevedo.myshikawa.db;
+package br.fazevedo.myshikawa.db.entity;
+
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
@@ -6,19 +7,17 @@ import android.arch.persistence.room.PrimaryKey;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
-@Entity(foreignKeys = @ForeignKey(entity = Reason.class,
+@Entity(foreignKeys = @ForeignKey(entity = RootReason.class,
                                   parentColumns = "id",
-                                  childColumns = "parentReasonId",
+                                  childColumns = "shikawaId",
                                   onDelete = CASCADE))
-public class RootReason {
+public class Shikawa {
     @PrimaryKey(autoGenerate = true)
     public final long id;
-    public final long shikawaId;
     public final String description;
 
-    public RootReason(final long id, final long shikawaId, final String description) {
+    public Shikawa(final long id, final String description) {
         this.id = id;
-        this.shikawaId = shikawaId;
         this.description = description;
     }
 }
