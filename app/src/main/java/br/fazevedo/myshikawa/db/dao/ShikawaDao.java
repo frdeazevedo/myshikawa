@@ -1,5 +1,6 @@
 package br.fazevedo.myshikawa.db.dao;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -22,5 +23,5 @@ public interface ShikawaDao {
     void delete(Shikawa... shikawas);
 
     @Query("SELECT * FROM shikawa")
-    List<Shikawa> getAllShikawas();
+    LiveData<List<Shikawa>> getAllShikawas();
 }

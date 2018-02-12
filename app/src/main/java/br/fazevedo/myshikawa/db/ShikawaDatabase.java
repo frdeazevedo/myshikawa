@@ -18,7 +18,7 @@ public abstract class ShikawaDatabase extends RoomDatabase {
     private static final String DB_NAME = "shikawa.db";
     private static volatile ShikawaDatabase sInstance;
 
-    static synchronized ShikawaDatabase getInstance(Context context) {
+    public static synchronized ShikawaDatabase getInstance(Context context) {
         if (sInstance == null) {
             sInstance = create(context);
         }
