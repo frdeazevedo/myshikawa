@@ -10,16 +10,15 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
 
 @Entity(foreignKeys = @ForeignKey(entity = Reason.class,
                                   parentColumns = "id",
-                                  childColumns = "parentReasonId",
+                                  childColumns = "shikawaId",
                                   onDelete = CASCADE))
 public class RootReason {
     @PrimaryKey(autoGenerate = true)
-    public final long id;
+    public long id;
     public final long shikawaId;
     public final String description;
 
-    public RootReason(final long id, final long shikawaId, final String description) {
-        this.id = id;
+    public RootReason(final long shikawaId, final String description) {
         this.shikawaId = shikawaId;
         this.description = description;
     }

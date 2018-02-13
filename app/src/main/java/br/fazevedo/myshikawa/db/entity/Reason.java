@@ -12,12 +12,11 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
                                   onDelete = CASCADE))
 public class Reason {
     @PrimaryKey(autoGenerate = true)
-    public final long id;
+    public long id;
     public final long parentReasonId;
     public final String description;
 
-    public Reason(final long id, final long parentReasonId, final String description) {
-        this.id = id;
+    public Reason(final long parentReasonId, final String description) {
         this.parentReasonId = parentReasonId;
         this.description = description;
     }

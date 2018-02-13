@@ -4,10 +4,12 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,31 +18,46 @@ import br.fazevedo.myshikawa.db.entity.Shikawa;
 import br.fazevedo.myshikawa.list.ShikawaListViewModel;
 import br.fazevedo.myshikawa.list.ShikawasAdapter;
 import br.fazevedo.myshikawa.list.ShikawasViewHolder;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
+    @BindView(R.id.fab)
+    FloatingActionButton mFAB;
+    @BindView(R.id.rv_shikawas)
+    RecyclerView mRVShikawas;
+
     private ShikawaListViewModel mShikawasListViewModel;
+    private ShikawasAdapter mShikawasAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
-        final ShikawasAdapter adapter = new ShikawasAdapter(new ArrayList<Shikawa>(), new ShikawasViewHolder.ShikawaListener() {
+        mShikawasAdapter = new ShikawasAdapter(new ArrayList<Shikawa>(), new ShikawasViewHolder.ShikawaListener() {
             @Override
             public void onShikawaClick(Shikawa shikawa) {
                 //TODO
             }
         });
-        RecyclerView rv = findViewById(R.id.rv_shikawas);
-        rv.setLayoutManager(new LinearLayoutManager(this));
-        rv.setAdapter(adapter);
+        mRVShikawas.setLayoutManager(new LinearLayoutManager(this));
+        mRVShikawas.setAdapter(mShikawasAdapter);
+
+        mFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mShikawasListViewModel.addShikawa(new Shikawa("This is a test Shikawa!"));
+            }
+        });
 
         mShikawasListViewModel = ViewModelProviders.of(this).get(ShikawaListViewModel.class);
         mShikawasListViewModel.getShikawasList().observe(this, new Observer<List<Shikawa>>() {
             @Override
             public void onChanged(@Nullable List<Shikawa> shikawas) {
-                adapter.setShikawasList(shikawas);
+                mShikawasAdapter.setShikawasList(shikawas);
             }
         });
     }
