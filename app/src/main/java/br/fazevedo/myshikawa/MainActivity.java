@@ -1,36 +1,29 @@
 package br.fazevedo.myshikawa;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import br.fazevedo.myshikawa.db.entity.Shikawa;
-import br.fazevedo.myshikawa.list.ShikawaListViewModel;
-import br.fazevedo.myshikawa.list.ShikawasAdapter;
-import br.fazevedo.myshikawa.list.ShikawasViewHolder;
+import br.fazevedo.myshikawa.screen.ShikawasListFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String ARG_CURR_SCREEN = "arg-curr-screen";
 
     @BindView(R.id.fab)
     FloatingActionButton mFAB;
-    @BindView(R.id.rv_shikawas)
-    RecyclerView mRVShikawas;
 
-    private ShikawaListViewModel mShikawasListViewModel;
-    private ShikawasAdapter mShikawasAdapter;
+    private enum Screen {
+        SHIKAWAS_LIST,
+        INVALID,
+    }
+
+    private Screen mCurrScreen;
+    private ShikawasListFragment mShikawasListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,34 +31,54 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        mShikawasAdapter = new ShikawasAdapter(new ArrayList<Shikawa>(), new ShikawasViewHolder.ShikawaListener() {
-            @Override
-            public void onShikawaClick(Shikawa shikawa) {
-                //TODO
-            }
-        });
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        mRVShikawas.setLayoutManager(llm);
-        mRVShikawas.setHasFixedSize(true);
-        mRVShikawas.setAdapter(mShikawasAdapter);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,
-                llm.getOrientation());
-        mRVShikawas.addItemDecoration(dividerItemDecoration);
-
         mFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mShikawasListViewModel.addShikawa(
-                        new Shikawa("Shikawa Title", "This is a test Shikawa!"));
+                switch (mCurrScreen) {
+                    case SHIKAWAS_LIST:
+                        mShikawasListFragment.addShikawa(
+                                new Shikawa("Shikawa Title", "Shikawa description goes here."));
+                        break;
+                }
             }
         });
+        mCurrScreen = Screen.INVALID;
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(ARG_CURR_SCREEN)) {
+                mCurrScreen = (Screen) savedInstanceState.getSerializable(ARG_CURR_SCREEN);
+            }
+        }
+        if (mCurrScreen == Screen.INVALID) {
+            //Shikawas list is the default fragment.
+            mCurrScreen = Screen.SHIKAWAS_LIST;
+        }
+        showScreen(mCurrScreen);
+    }
 
-        mShikawasListViewModel = ViewModelProviders.of(this).get(ShikawaListViewModel.class);
-        mShikawasListViewModel.getShikawasList().observe(this, new Observer<List<Shikawa>>() {
-            @Override
-            public void onChanged(@Nullable List<Shikawa> shikawas) {
-                mShikawasAdapter.setShikawasList(shikawas);
-            }
-        });
+    private void showScreen(Screen screen) {
+        mCurrScreen = screen;
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+
+        if (mShikawasListFragment == null) {
+            mShikawasListFragment = ShikawasListFragment.newInstance();
+            mShikawasListFragment.setRetainInstance(true);
+        }
+
+        int frame_id = R.id.frame_main_content;
+        switch (screen) {
+            case SHIKAWAS_LIST:
+                fragmentTransaction.replace(frame_id, mShikawasListFragment);
+                break;
+            case INVALID:
+                //unreachable!
+                break;
+        }
+        fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(ARG_CURR_SCREEN, mCurrScreen);
+        super.onSaveInstanceState(outState);
     }
 }
