@@ -6,4 +6,7 @@
     <string name="okay">OK</string>
     <string name="cancel">Cancel</string>
     <string name="cant_be_empty">Title nor description can be empty!</string>
+    <string name="dialog_remove_title">Remove %s</string>
+    <string name="dialog_remove_body">You are going to delete \"%s\".</string>
+    <string name="shikawa">Shikawa</string>
 </resources>

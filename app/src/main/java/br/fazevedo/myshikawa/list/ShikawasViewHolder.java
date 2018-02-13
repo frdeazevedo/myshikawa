@@ -14,17 +14,17 @@ public class ShikawasViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.tv_shikawa_title)
     TextView mTVTitle;
 
-    private Context mContext;
+    private Shikawa mShikawa;
     private ShikawaListener mListener;
 
-    public ShikawasViewHolder(View itemView, Context context, ShikawaListener listener) {
+    ShikawasViewHolder(View itemView, ShikawaListener listener) {
         super(itemView);
         ButterKnife.bind(this, itemView);
-        mContext = context;
         mListener = listener;
+        mShikawa = null;
     }
 
-    public void onBind(final Shikawa shikawa) {
+    void onBind(final Shikawa shikawa) {
         mTVTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -34,6 +34,11 @@ public class ShikawasViewHolder extends RecyclerView.ViewHolder {
             }
         });
         mTVTitle.setText(shikawa.title);
+        mShikawa = shikawa;
+    }
+
+    public Shikawa getShikawa() {
+        return mShikawa;
     }
 
     public interface ShikawaListener {

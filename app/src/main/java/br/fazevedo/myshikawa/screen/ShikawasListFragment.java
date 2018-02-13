@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.fazevedo.myshikawa.R;
+import br.fazevedo.myshikawa.ShikawaUtils;
 import br.fazevedo.myshikawa.db.entity.Shikawa;
 import br.fazevedo.myshikawa.list.ShikawaListViewModel;
 import br.fazevedo.myshikawa.list.ShikawasAdapter;
@@ -41,7 +43,7 @@ public class ShikawasListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_shikawas_list, container, false);
+        final View view = inflater.inflate(R.layout.fragment_shikawas_list, container, false);
         ButterKnife.bind(this, view);
 
         mShikawasAdapter = new ShikawasAdapter(new ArrayList<Shikawa>(), new ShikawasViewHolder.ShikawaListener() {
@@ -66,6 +68,34 @@ public class ShikawasListFragment extends Fragment {
                 mShikawasAdapter.setShikawasList(shikawas);
             }
         });
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
+                0, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                ShikawasViewHolder shikawasViewHolder = (ShikawasViewHolder) viewHolder;
+                final Shikawa shikawa = shikawasViewHolder.getShikawa();
+                ShikawaUtils.showRemoveDialog(getContext(), ShikawaUtils.DialogForType.SHIKAWA,
+                        shikawa.title, new ShikawaUtils.OnRemoveDialogListener() {
+                            @Override
+                            public void onPositive() {
+                                mShikawasListViewModel.deleteShikawa(shikawa);
+                            }
+
+                            @Override
+                            public void onNegative() {
+                                // to re-draw the text
+                                mShikawasAdapter.notifyDataSetChanged();
+                            }
+                        });
+            }
+        });
+        itemTouchHelper.attachToRecyclerView(mRVShikawas);
 
         return view;
     }

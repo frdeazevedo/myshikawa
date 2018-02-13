@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (mCurrScreen) {
                     case SHIKAWAS_LIST:
                         ShikawaUtils.showCreateDialog(MainActivity.this,
-                                ShikawaUtils.CreateDialogType.CreateShikawa,
+                                ShikawaUtils.DialogForType.SHIKAWA,
                                 new ShikawaUtils.OnCreateDialogListener() {
                                     @Override
                                     public void onPositive(String title, String description) {

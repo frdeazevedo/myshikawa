@@ -28,7 +28,7 @@ public class ShikawasAdapter extends RecyclerView.Adapter<ShikawasViewHolder> {
     public ShikawasViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.shikawa_item, parent, false);
-        return new ShikawasViewHolder(view, parent.getContext(), mListener);
+        return new ShikawasViewHolder(view, mListener);
     }
 
     @Override
