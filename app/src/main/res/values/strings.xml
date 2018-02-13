@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">My Shikawa</string>
+    <string name="create_shikawa">Create a Shikawa</string>
+    <string name="type_title_hint">Type a title</string>
+    <string name="type_description_hint">Type some description</string>
+    <string name="okay">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="cant_be_empty">Title nor description can be empty!</string>
 </resources>

@@ -36,8 +36,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 switch (mCurrScreen) {
                     case SHIKAWAS_LIST:
-                        mShikawasListFragment.addShikawa(
-                                new Shikawa("Shikawa Title", "Shikawa description goes here."));
+                        ShikawaUtils.showCreateDialog(MainActivity.this,
+                                ShikawaUtils.CreateDialogType.CreateShikawa,
+                                new ShikawaUtils.OnCreateDialogListener() {
+                                    @Override
+                                    public void onPositive(String title, String description) {
+                                        mShikawasListFragment.addShikawa(
+                                                new Shikawa(title, description));
+                                    }
+                                });
                         break;
                 }
             }

@@ -13,7 +13,7 @@
     <TextView
         android:id="@+id/tv_shikawa_title"
         android:layout_margin="8dp"
-        android:textSize="18sp"
+        android:textSize="@dimen/title_text_size"
         android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
