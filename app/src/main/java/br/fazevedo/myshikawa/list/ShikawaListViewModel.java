@@ -41,7 +41,6 @@ public class ShikawaListViewModel extends AndroidViewModel {
             mDB = db;
         }
 
-
         @Override
         protected Void doInBackground(Shikawa... shikawas) {
             mDB.getShikawaDao().delete(shikawas);

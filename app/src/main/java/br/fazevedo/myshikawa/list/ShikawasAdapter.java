@@ -11,7 +11,7 @@ import br.fazevedo.myshikawa.R;
 import br.fazevedo.myshikawa.db.entity.Shikawa;
 
 public class ShikawasAdapter extends RecyclerView.Adapter<ShikawasViewHolder> {
-    ShikawasViewHolder.ShikawaListener mListener;
+    private ShikawasViewHolder.ShikawaListener mListener;
     private List<Shikawa> mShikawas;
 
     public ShikawasAdapter(List<Shikawa> shikawas, ShikawasViewHolder.ShikawaListener listener) {

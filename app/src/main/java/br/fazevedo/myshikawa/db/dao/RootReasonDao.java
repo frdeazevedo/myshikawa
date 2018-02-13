@@ -1,5 +1,6 @@
 package br.fazevedo.myshikawa.db.dao;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -22,5 +23,5 @@ public interface RootReasonDao {
     void delete(RootReason... rootReasons);
 
     @Query("SELECT * FROM rootreason WHERE shikawaId=:shakawaId")
-    List<RootReason> findRootReasons(final long shakawaId);
+    LiveData<List<RootReason>> findRootReasons(final long shakawaId);
 }

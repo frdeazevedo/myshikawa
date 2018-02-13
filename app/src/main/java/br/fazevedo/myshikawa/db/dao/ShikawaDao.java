@@ -24,4 +24,7 @@ public interface ShikawaDao {
 
     @Query("SELECT * FROM shikawa")
     LiveData<List<Shikawa>> getAllShikawas();
+
+    @Query("SELECT * FROM shikawa WHERE id=:shikawaId")
+    Shikawa getShikawa(long shikawaId);
 }

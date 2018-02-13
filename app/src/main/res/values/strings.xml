@@ -9,4 +9,5 @@
     <string name="dialog_remove_title">Remove %s</string>
     <string name="dialog_remove_body">You are going to delete \"%s\".</string>
     <string name="shikawa">Shikawa</string>
+    <string name="reason">Reason</string>
 </resources>

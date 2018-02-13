@@ -17,9 +17,11 @@ public class RootReason {
     public long id;
     public final long shikawaId;
     public final String description;
+    public final int status; //0: not done, 1: on going, 2: done
 
-    public RootReason(final long shikawaId, final String description) {
+    public RootReason(final long shikawaId, final String description, final int status) {
         this.shikawaId = shikawaId;
         this.description = description;
+        this.status = status;
     }
 }
