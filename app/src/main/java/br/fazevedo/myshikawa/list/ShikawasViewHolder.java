@@ -33,7 +33,7 @@ public class ShikawasViewHolder extends RecyclerView.ViewHolder {
                 }
             }
         });
-        mTVTitle.setText(shikawa.description);
+        mTVTitle.setText(shikawa.title);
     }
 
     public interface ShikawaListener {

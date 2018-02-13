@@ -5,12 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp"
+    android:focusable="true"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     >
 
     <TextView
         android:id="@+id/tv_shikawa_title"
         android:layout_margin="8dp"
-        android:textSize="15sp"
+        android:textSize="18sp"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:singleLine="true"

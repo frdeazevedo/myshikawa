@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -43,13 +44,19 @@ public class MainActivity extends AppCompatActivity {
                 //TODO
             }
         });
-        mRVShikawas.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        mRVShikawas.setLayoutManager(llm);
+        mRVShikawas.setHasFixedSize(true);
         mRVShikawas.setAdapter(mShikawasAdapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,
+                llm.getOrientation());
+        mRVShikawas.addItemDecoration(dividerItemDecoration);
 
         mFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mShikawasListViewModel.addShikawa(new Shikawa("This is a test Shikawa!"));
+                mShikawasListViewModel.addShikawa(
+                        new Shikawa("Shikawa Title", "This is a test Shikawa!"));
             }
         });
 
