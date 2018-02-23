@@ -89,7 +89,7 @@ public class ShikawaDetailsFragment extends Fragment {
 
         mRootReasonsListViewModel = ViewModelProviders.of(this)
                 .get(RootReasonListViewModel.class);
-        mRootReasonsListViewModel.getRootReasons().observe(this, new Observer<List<RootReason>>() {
+        mRootReasonsListViewModel.getModelList().observe(this, new Observer<List<RootReason>>() {
             @Override
             public void onChanged(@Nullable List<RootReason> rootReasons) {
                 mRootReasonAdapter.setRootReasonList(rootReasons);
@@ -110,7 +110,7 @@ public class ShikawaDetailsFragment extends Fragment {
                         getString(R.string.reason), new ShikawaUtils.OnRemoveDialogListener() {
                             @Override
                             public void onPositive() {
-                                mRootReasonsListViewModel.deleteRootReason(rootReason);
+                                mRootReasonsListViewModel.delete(rootReason);
                             }
 
                             @Override

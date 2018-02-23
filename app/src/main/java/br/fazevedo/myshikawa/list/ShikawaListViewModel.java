@@ -11,53 +11,29 @@ import java.util.List;
 import br.fazevedo.myshikawa.db.ShikawaDatabase;
 import br.fazevedo.myshikawa.db.entity.Shikawa;
 
-public class ShikawaListViewModel extends AndroidViewModel {
-
-    private final LiveData<List<Shikawa>> mShikawasList;
-    private ShikawaDatabase mDB;
-
+public class ShikawaListViewModel extends GenericModelListViewModel<Shikawa> {
     public ShikawaListViewModel(@NonNull Application application) {
         super(application);
 
-        mDB = ShikawaDatabase.getInstance(this.getApplication());
-        mShikawasList = mDB.getShikawaDao().getAllShikawas();
     }
 
-    public LiveData<List<Shikawa>> getShikawasList() {
-        return mShikawasList;
+    @Override
+    protected LiveData<List<Shikawa>> createModelList() {
+        return mDB.getShikawaDao().getAllShikawas();
     }
 
-    public void deleteShikawa(Shikawa shikawa) {
-        new DeleteAsyncTask(mDB).execute(shikawa);
-    }
+    @Override
+    protected DaoInterface<Shikawa> createDaoInterface() {
+        return new DaoInterface<Shikawa>() {
+            @Override
+            public void delete(Shikawa shikawa) {
+                mDB.getShikawaDao().delete(shikawa);
+            }
 
-    public void addShikawa(Shikawa shikawa) {
-        new AddAsyncTask(mDB).execute(shikawa);
-    }
-
-    static class DeleteAsyncTask extends AsyncTask<Shikawa, Void, Void> {
-        ShikawaDatabase mDB;
-        DeleteAsyncTask(ShikawaDatabase db) {
-            mDB = db;
-        }
-
-        @Override
-        protected Void doInBackground(Shikawa... shikawas) {
-            mDB.getShikawaDao().delete(shikawas);
-            return null;
-        }
-    }
-
-    static class AddAsyncTask extends AsyncTask<Shikawa, Void, Void> {
-        ShikawaDatabase mDB;
-        AddAsyncTask(ShikawaDatabase db) {
-            mDB = db;
-        }
-
-        @Override
-        protected Void doInBackground(Shikawa... shikawas) {
-            mDB.getShikawaDao().insert(shikawas[0]);
-            return null;
-        }
+            @Override
+            public void insert(Shikawa shikawa) {
+                mDB.getShikawaDao().insert(shikawa);
+            }
+        };
     }
 }

@@ -62,7 +62,7 @@ public class ShikawasListFragment extends Fragment {
         mRVShikawas.addItemDecoration(dividerItemDecoration);
 
         mShikawasListViewModel = ViewModelProviders.of(this).get(ShikawaListViewModel.class);
-        mShikawasListViewModel.getShikawasList().observe(this, new Observer<List<Shikawa>>() {
+        mShikawasListViewModel.getModelList().observe(this, new Observer<List<Shikawa>>() {
             @Override
             public void onChanged(@Nullable List<Shikawa> shikawas) {
                 mShikawasAdapter.setShikawasList(shikawas);
@@ -84,7 +84,7 @@ public class ShikawasListFragment extends Fragment {
                         shikawa.title, new ShikawaUtils.OnRemoveDialogListener() {
                             @Override
                             public void onPositive() {
-                                mShikawasListViewModel.deleteShikawa(shikawa);
+                                mShikawasListViewModel.delete(shikawa);
                             }
 
                             @Override
@@ -101,6 +101,6 @@ public class ShikawasListFragment extends Fragment {
     }
 
     public void addShikawa(Shikawa shikawa) {
-        mShikawasListViewModel.addShikawa(shikawa);
+        mShikawasListViewModel.insert(shikawa);
     }
 }
